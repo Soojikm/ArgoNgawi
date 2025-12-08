@@ -16,6 +16,7 @@ struct Team {
     string baseCountry;
     int founded;
     string liveryColors[3];
+    string NumberDriver[2];
 };
 
 typedef struct ElemenTeam* adrTeam;
