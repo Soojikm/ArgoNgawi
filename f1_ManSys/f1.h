@@ -10,9 +10,9 @@ using namespace std;
 struct RaceStat {
     int noBalapan;
     string namaSirkuit;
-    string namaDriver;
-    int posisi;
-    int poin;
+    int posisi[2];    // Array untuk 2 driver
+    int penalti[2];   // Array untuk 2 driver
+    int poin[2];
 };
 
 typedef struct ElemenRace* adrRace;
@@ -56,11 +56,11 @@ adrTeam searchTeam(ListTeam L, string namaTeam);
 void displayTeams(ListTeam L);
 
 // CHILD (RACE)
-adrRace createElemenRace(int noBalapan, string namaSirkuit, string driverName, int posisi, int penalti);
+adrRace createElemenRace(int noBalapan, string namaSirkuit, int posisi[], int penalti[]);  // Input array
 void addRace(adrTeam team, adrRace r);
 void deleteRace(adrTeam team, int noBalapan);
 void deleteAllRace(adrTeam team);
-void updateRace(adrTeam team, int noBalapan, int posisiBaru, int penaltiBaru);
+void updateRace(adrTeam team, int noBalapan, int posisiBaru[], int penaltiBaru[], ListTeam &L);
 adrRace searchRace(adrTeam team, int noBalapan);
 
 // STATISTIK POIN
@@ -71,7 +71,7 @@ float avgPoint(adrTeam T);
 int hitungPoin(int posisi, int penalti);
 
 //CEK POSISI
-bool isPositionTaken(ListTeam L, int noBalapan, int checkPosisi);
+bool isPositionTaken(ListTeam L,adrRace self, int noBalapan, int posisi);  // cek kedua posisi
 
 // FITUR SORTING & TAMPILAN
 void showGlobalStandings(ListTeam L, int modeSort);

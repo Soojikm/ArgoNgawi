@@ -7,34 +7,19 @@ using namespace std;
 // info poin f1
 int hitungPoin(int posisi, int penalti) {
     int poinDasar = 0;
-    if (posisi == 1){
-            poinDasar = 25;
-    }else if (posisi == 2){
-        poinDasar = 18;
-    }else if (posisi == 3){
-        poinDasar = 15;
-    }else if (posisi == 4){
-        poinDasar = 12;
-    }else if (posisi == 5){
-        poinDasar = 10;
-    }else if (posisi == 6){
-        poinDasar = 8;
-    }else if (posisi == 7){
-        poinDasar = 6;
-    }else if (posisi == 8){
-        poinDasar = 4;
-    }else if (posisi == 9){
-        poinDasar = 2;
-    }else if (posisi == 10){
-        poinDasar = 1;
-    }else {
-            poinDasar = 0;
-    }
+    if (posisi == 1) poinDasar = 25;
+    else if (posisi == 2) poinDasar = 18;
+    else if (posisi == 3) poinDasar = 15;
+    else if (posisi == 4) poinDasar = 12;
+    else if (posisi == 5) poinDasar = 10;
+    else if (posisi == 6) poinDasar = 8;
+    else if (posisi == 7) poinDasar = 6;
+    else if (posisi == 8) poinDasar = 4;
+    else if (posisi == 9) poinDasar = 2;
+    else if (posisi == 10) poinDasar = 1;
+    else poinDasar = 0;
     int poinAkhir = poinDasar - penalti;
-    if (poinAkhir < 0){
-            poinAkhir = 0;
-    }
-    return poinAkhir;
+    return (poinAkhir < 0) ? 0 : poinAkhir;
 }
 
 // parent (team) -> dll
@@ -52,11 +37,11 @@ adrTeam createElemenTeam(string nama, string negara, int tahun, string warnaLive
     p->info.namaTeam = nama;
     p->info.negaraAsal = negara;
     p->info.tahunBerdiri = tahun;
-    for (int i=0; i<3; i++) {
+    for (int i = 0; i < 3; i++) {
         p->info.warnaLivery[i] = warnaLivery[i];
     }
-    for (int i=0; i<2; i++) {
-            p->info.noDriver[i] = noDriver[i];
+    for (int i = 0; i < 2; i++) {
+        p->info.noDriver[i] = noDriver[i];
     }
     p->next = NULL;
     p->prev = NULL;
@@ -79,7 +64,7 @@ adrTeam searchTeam(ListTeam L, string namaTeam) {
     adrTeam p = L.first;
     while (p != NULL) {
         if (p->info.namaTeam == namaTeam) {
-                return p;
+            return p;
         }
         p = p->next;
     }
@@ -108,9 +93,9 @@ void deleteTeam(ListTeam &L, string namaTeam) {
             p->next->prev = p->prev;
         }
         delete p;
-        cout << "------------------------------" << endl;
+        cout << "---------------------------------" << endl;
         cout << "Tim " << namaTeam << " berhasil dihapus " << endl;
-        cout << "------------------------------" << endl;
+        cout << "---------------------------------" << endl;
     }
 }
 
@@ -119,11 +104,11 @@ void updateTeam(adrTeam t, string namaBaru, string negaraBaru, int tahunBaru, st
         t->info.namaTeam = namaBaru;
         t->info.negaraAsal = negaraBaru;
         t->info.tahunBerdiri = tahunBaru;
-        for(int i=0; i<3; i++) {
-                t->info.warnaLivery[i] = warnaBaru[i];
+        for (int i = 0; i < 3; i++) {
+            t->info.warnaLivery[i] = warnaBaru[i];
         }
-        for(int i=0; i<2; i++) {
-                t->info.noDriver[i] = noDriverBaru[i];
+        for (int i = 0; i < 2; i++) {
+            t->info.noDriver[i] = noDriverBaru[i];
         }
         cout << "------------------------------" << endl;
         cout << "Data Tim berhasil diupdate" << endl;
@@ -132,13 +117,15 @@ void updateTeam(adrTeam t, string namaBaru, string negaraBaru, int tahunBaru, st
 }
 
 // child (race) -> sll
-adrRace createElemenRace(int noBalapan, string namaSirkuit, string driverName, int posisi, int penalti) {
+adrRace createElemenRace(int noBalapan, string namaSirkuit, int posisi[], int penalti[]) {
     adrRace r = new ElemenRace;
     r->info.noBalapan = noBalapan;
     r->info.namaSirkuit = namaSirkuit;
-    r->info.namaDriver = driverName;
-    r->info.posisi = posisi;
-    r->info.poin = hitungPoin(posisi, penalti);
+    for (int i = 0; i < 2; i++) {
+        r->info.posisi[i] = posisi[i];
+        r->info.penalti[i] = penalti[i];
+        r->info.poin[i] = hitungPoin(posisi[i], penalti[i]);
+    }
     r->next = NULL;
     return r;
 }
@@ -161,8 +148,8 @@ adrRace searchRace(adrTeam team, int noBalapan) {
     if (team != NULL) {
         adrRace r = team->firstRace;
         while (r != NULL) {
-            if (r->info.noBalapan == noBalapan){
-                    return r;
+            if (r->info.noBalapan == noBalapan) {
+                return r;
             }
             r = r->next;
         }
@@ -178,9 +165,9 @@ void deleteRace(adrTeam team, int noBalapan) {
 
         // cari node
         while (p != NULL && !found) {
-            if (p->info.noBalapan == noBalapan){
-                    found = true;
-            }else {
+            if (p->info.noBalapan == noBalapan) {
+                found = true;
+            } else {
                 prec = p;
                 p = p->next;
             }
@@ -216,18 +203,39 @@ void deleteAllRace(adrTeam team) {
     }
 }
 
-void updateRace(adrTeam team, int noBalapan, int posisiBaru, int penaltiBaru) {
+void updateRace(adrTeam team, int noBalapan, int posisiBaru[], int penaltiBaru[], ListTeam &L) {
     adrRace r = searchRace(team, noBalapan);
+
     if (r != NULL) {
-        r->info.posisi = posisiBaru;
-        r->info.poin = hitungPoin(posisiBaru, penaltiBaru);
-        cout << "\n------------------------------" << endl;
-        cout << "Data Balapan berhasil diupdate" << endl;
-        cout << "------------------------------\n" << endl;
+        bool crash = false;
+
+        for (int i = 0; i < 2; i++) {
+            if (posisiBaru[i] != r->info.posisi[i]) {
+                if (isPositionTaken(L, r, noBalapan, posisiBaru[i])) {
+                    crash = true;
+                }
+            }
+        }
+
+        if (crash) {
+            cout << "\n------------------------------------------------------------" << endl;
+            cout << "GAGAL UPDATE! Salah satu posisi sudah diisi pembalap lain." << endl;
+            cout << "------------------------------------------------------------\n" << endl;
+        } else {
+            for (int i = 0; i < 2; i++) {
+                r->info.posisi[i]  = posisiBaru[i];
+                r->info.penalti[i] = penaltiBaru[i];
+                r->info.poin[i]    = hitungPoin(posisiBaru[i], penaltiBaru[i]);
+            }
+
+            cout << "\n--------------------------------" << endl;
+            cout << "Data Balapan berhasil diupdate" << endl;
+            cout << "--------------------------------\n" << endl;
+        }
     } else {
         cout << "\n------------------------------" << endl;
         cout << "Balapan tidak ditemukan" << endl;
-        cout << "------------------------------\ns" << endl;
+        cout << "------------------------------\n" << endl;
     }
 }
 
@@ -236,7 +244,7 @@ int totalPoints(adrTeam T) {
     int total = 0;
     adrRace r = T->firstRace;
     while (r != NULL) {
-        total += r->info.poin;
+        total += r->info.poin[0] + r->info.poin[1];  // jumlah kedua poin driver
         r = r->next;
     }
     return total;
@@ -246,12 +254,12 @@ int maxPoint(adrTeam T) {
     if (T->firstRace == NULL){
             return 0;
     }
-
-    int mx = T->firstRace->info.poin;
+    int mx = T->firstRace->info.poin[0] + T->firstRace->info.poin[1];
     adrRace r = T->firstRace->next;
     while (r != NULL) {
-        if (r->info.poin > mx) {
-            mx = r->info.poin;
+        int current = r->info.poin[0] + r->info.poin[1];
+        if (current > mx){
+                mx = current;
         }
         r = r->next;
     }
@@ -262,12 +270,12 @@ int minPoint(adrTeam T) {
     if (T->firstRace == NULL){
             return 0;
     }
-
-    int mn = T->firstRace->info.poin;
+    int mn = T->firstRace->info.poin[0] + T->firstRace->info.poin[1];
     adrRace r = T->firstRace->next;
     while (r != NULL) {
-        if (r->info.poin < mn) {
-            mn = r->info.poin;
+        int current = r->info.poin[0] + r->info.poin[1];
+        if (current < mn){
+                mn = current;
         }
         r = r->next;
     }
@@ -278,34 +286,39 @@ float avgPoint(adrTeam T) {
     if (T->firstRace == NULL){
             return 0.0;
     }
-
-    int sum = 0, count = 0;
+    int sum = totalPoints(T);
+    int count = 0;
     adrRace r = T->firstRace;
     while (r != NULL) {
-        sum += r->info.poin;
         count++;
         r = r->next;
     }
-    return (float)sum / count;
+    return (float)sum / count;  // rata-rata total poin per race
 }
 
-bool isPositionTaken(ListTeam L, int noBalapan, int checkPosisi) {
-    adrTeam p = L.first;
-    while (p != NULL) {
-        adrRace r = p->firstRace;
+bool isPositionTaken(ListTeam L,adrRace self, int noBalapan, int posisi){
+    adrTeam t = L.first;
+
+    while (t != NULL) {
+        adrRace r = t->firstRace;
         while (r != NULL) {
-            if (r->info.noBalapan == noBalapan && r->info.posisi == checkPosisi) {
-                return true;
+            if (r != self) {
+                if (r->info.noBalapan == noBalapan) {
+                    for (int i = 0; i < 2; i++) {
+                        if (r->info.posisi[i] == posisi) {
+                            return true;
+                        }
+                    }
+                }
             }
             r = r->next;
         }
-        p = p->next;
+        t = t->next;
     }
-    return false; // Posisi aman berarti kosong
+    return false;
 }
 
 // display dan sorting
-
 void displayTeams(ListTeam L) {
     if (isEmptyTeam(L)) {
         cout << "Belum ada data tim" << endl;
@@ -325,10 +338,11 @@ void displayTeams(ListTeam L) {
         } else {
             while (r != NULL) {
                 cout << "  -> Seri #" << r->info.noBalapan
-                     << " (" << r->info.namaSirkuit << ") - "
-                     << r->info.namaDriver << ": " // menampilkan Driver
-                     << "P " << r->info.posisi << ", "
-                     << r->info.poin << " pts" << endl;
+                     << " (" << r->info.namaSirkuit << "):" << endl;
+                for (int j = 0; j < 2; j++) {  // print kedua driver
+                    cout << "     " << p->info.noDriver[j] << ": P " << r->info.posisi[j]
+                         << ", " << r->info.poin[j] << " pts" << endl;
+                }
                 r = r->next;
             }
             cout << "----------------------------------------" << endl;
@@ -360,15 +374,15 @@ void showGlobalStandings(ListTeam L, int modeSort) {
 
     int count = 0;
     adrTeam p = L.first;
-    while(p != NULL){
-            count++;
-            p = p->next;
+    while (p != NULL) {
+        count++;
+        p = p->next;
     }
 
     TeamData* data = new TeamData[count];
     p = L.first;
     int idx = 0;
-    while(p != NULL) {
+    while (p != NULL) {
         data[idx].nama = p->info.namaTeam;
         data[idx].negara = p->info.negaraAsal;
         data[idx].totalPoin = totalPoints(p);
@@ -376,44 +390,49 @@ void showGlobalStandings(ListTeam L, int modeSort) {
         idx++;
     }
 
-
-    for(int i=0; i<count-1; i++) {
-        for(int j=0; j<count-i-1; j++) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
             bool swapCondition = false;
-
             if (modeSort == 1) {
-                if(data[j].totalPoin < data[j+1].totalPoin){
-                    swapCondition = true;
+                if (data[j].totalPoin < data[j + 1].totalPoin) {
+                        swapCondition = true;
                 }
             } else {
-                if(data[j].totalPoin > data[j+1].totalPoin){
+                if (data[j].totalPoin > data[j + 1].totalPoin){
                     swapCondition = true;
                 }
             }
-
-            if(swapCondition) {
+            if (swapCondition) {
                 TeamData temp = data[j];
-                data[j] = data[j+1];
-                data[j+1] = temp;
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
             }
         }
     }
 
     string label = (modeSort == 1) ? "TERBESAR" : "TERKECIL";
     cout << "\n=== KLASEMEN TIM (" << label << ") ===" << endl;
-    cout << "Rank | Tim (Negara)             | Total Poin" << endl;
-    cout << "--------------------------------------------" << endl;
-    for(int i=0; i<count; i++) {
-        cout << setw(4) << i+1 << " | "
-             << data[i].nama << " (" << data[i].negara << ") \t| "
-             << data[i].totalPoin << endl;
+
+    cout << left << setw(5) << "Rank"
+         << " | " << setw(35) << "Tim (Negara)"
+         << " | " << right << setw(10) << "Total Poin" << endl;
+    cout << "--------------------------------------------------------" << endl;
+
+    for (int i = 0; i < count; i++) {
+
+        string timInfo = data[i].nama + " (" + data[i].negara + ")";
+
+        cout << left << setw(5) << i + 1
+             << " | " << setw(35) << timInfo
+             << " | " << right << setw(10) << data[i].totalPoin
+             << endl;
     }
-    cout << "--------------------------------------------" << endl;
+    cout << "--------------------------------------------------------" << endl;
 
     delete[] data;
 }
 
-void showTeamsSortedByName(ListTeam L, int mode) {
+void showTeamsSortedByName(ListTeam L, int modeSort) {
     if (isEmptyTeam(L)) {
         cout << "\n------------------------------" << endl;
         cout << "Data Kosong" << endl;
@@ -422,12 +441,12 @@ void showTeamsSortedByName(ListTeam L, int mode) {
 
     int count = 0;
     adrTeam p = L.first;
-    while(p != NULL) { count++; p = p->next; }
+    while (p != NULL) { count++; p = p->next; }
 
     TeamData* data = new TeamData[count];
     p = L.first;
     int idx = 0;
-    while(p != NULL) {
+    while (p != NULL) {
         data[idx].nama = p->info.namaTeam;
         data[idx].negara = p->info.negaraAsal;
         data[idx].totalPoin = totalPoints(p);
@@ -435,38 +454,42 @@ void showTeamsSortedByName(ListTeam L, int mode) {
         idx++;
     }
 
-    for(int i=0; i<count-1; i++) {
-        for(int j=0; j<count-i-1; j++) {
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
             bool swapCondition = false;
-
-            if (mode == 1) {
-                if(data[j].nama > data[j+1].nama){
+            if (modeSort == 1) {
+                if (data[j].nama > data[j + 1].nama){
                     swapCondition = true;
                 }
             } else {
-                if(data[j].nama < data[j+1].nama){
-                        swapCondition = true;
+                if (data[j].nama < data[j + 1].nama){
+                    swapCondition = true;
                 }
             }
-
-            if(swapCondition) {
+            if (swapCondition) {
                 TeamData temp = data[j];
-                data[j] = data[j+1];
-                data[j+1] = temp;
+                data[j] = data[j + 1];
+                data[j + 1] = temp;
             }
         }
     }
 
-    string label = (mode == 1) ? "A - Z" : "Z - A";
+    string label = (modeSort == 1) ? "A - Z" : "Z - A";
     cout << "\n=== DAFTAR TIM (" << label << ") ===" << endl;
-    cout << "No   | Tim (Negara)             | Total Poin" << endl;
-    cout << "--------------------------------------------" << endl;
-    for(int i=0; i<count; i++) {
-        cout << setw(4) << i+1 << " | "
-             << data[i].nama << " (" << data[i].negara << ") \t| "
-             << data[i].totalPoin << endl;
+    cout << left << setw(5) << "No"
+         << " | " << setw(35) << "Tim (Negara)"
+         << " | " << right << setw(10) << "Total Poin" << endl;
+    cout << "--------------------------------------------------------" << endl;
+
+    for (int i = 0; i < count; i++) {
+        string timInfo = data[i].nama + " (" + data[i].negara + ")";
+
+        cout << left << setw(5) << i + 1
+             << " | " << setw(35) << timInfo
+             << " | " << right << setw(10) << data[i].totalPoin
+             << endl;
     }
-    cout << "--------------------------------------------" << endl;
+    cout << "--------------------------------------------------------" << endl;
 
     delete[] data;
 }
@@ -482,19 +505,21 @@ struct ResultData {
 void showCircuitStandings(ListTeam L, string namaSirkuit) {
     if (isEmptyTeam(L)) return;
 
-    ResultData results[50];
+    ResultData results[100];
     int count = 0;
 
     adrTeam p = L.first;
-    while(p != NULL) {
+    while (p != NULL) {
         adrRace r = p->firstRace;
-        while(r != NULL) {
-            if(r->info.namaSirkuit == namaSirkuit) {
-                results[count].namaTeam = p->info.namaTeam;
-                results[count].namaDriver = r->info.namaDriver;
-                results[count].posisi = r->info.posisi;
-                results[count].poin = r->info.poin;
-                count++;
+        while (r != NULL) {
+            if (r->info.namaSirkuit == namaSirkuit) {
+                for (int i = 0; i < 2; i++) {
+                    results[count].namaTeam = p->info.namaTeam;
+                    results[count].namaDriver = p->info.noDriver[i];
+                    results[count].posisi = r->info.posisi[i];
+                    results[count].poin = r->info.poin[i];
+                    count++;
+                }
             }
             r = r->next;
         }
@@ -504,52 +529,82 @@ void showCircuitStandings(ListTeam L, string namaSirkuit) {
     if (count == 0) {
         cout << "\n-------------------------------------------" << endl;
         cout << "Tidak ada data balapan di Sirkuit " << namaSirkuit << endl;
+        cout << "-------------------------------------------\n" << endl;
         return;
     }
 
-    for(int i=0; i<count-1; i++) {
-        for(int j=0; j<count-i-1; j++) {
-            if(results[j].posisi > results[j+1].posisi) {
+    // Sort berdasarkan posisi ascending
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (results[j].posisi > results[j + 1].posisi) {
                 ResultData temp = results[j];
-                results[j] = results[j+1];
-                results[j+1] = temp;
+                results[j] = results[j + 1];
+                results[j + 1] = temp;
             }
         }
     }
 
     cout << "\n=== HASIL BALAPAN: " << namaSirkuit << " ===" << endl;
-    cout << "P   | Driver (Tim)               | Poin" << endl;
-    cout << "----------------------------------------" << endl;
-    for(int i=0; i<count; i++) {
-        cout << setw(3) << results[i].posisi << " | "
-             << results[i].namaDriver << " (" << results[i].namaTeam << ") \t| "
-             << results[i].poin << endl;
+    cout << left << setw(4) << "Pos"
+         << " | " << setw(40) << "Driver (Tim)"
+         << " | " << right << setw(6) << "Poin" << endl;
+    cout << "--------------------------------------------------------" << endl;
+
+    for (int i = 0; i < count; i++) {
+        string driverInfo = results[i].namaDriver + " (" + results[i].namaTeam + ")";
+
+        cout << left << setw(4) << results[i].posisi
+             << " | " << setw(40) << driverInfo
+             << " | " << right << setw(6) << results[i].poin
+             << endl;
     }
-    cout << "----------------------------------------" << endl;
+    cout << "--------------------------------------------------------" << endl;
 }
 
 void showRaceStatsByNo(ListTeam L, int noBalapan) {
-     if (isEmptyTeam(L)){
-            return;
-     }
-    cout << "\n=== HASIL BALAPAN SERI #" << noBalapan << " ===" << endl;
-    adrTeam p = L.first;
-    bool foundAny = false;
+    if (isEmptyTeam(L)) return;
 
-    while(p != NULL) {
+    cout << "\n=== HASIL BALAPAN SERI #" << noBalapan << " ===" << endl;
+    ResultData results[100];  // kumpulkan semua driver
+    int count = 0;
+
+    adrTeam p = L.first;
+    while (p != NULL) {
         adrRace r = p->firstRace;
-        while(r != NULL) {
-            if(r->info.noBalapan == noBalapan) {
-                 cout << "Pos " << r->info.posisi << ": "
-                      << r->info.namaDriver << " (" << p->info.namaTeam << ") - "
-                      << r->info.poin << " pts" << endl;
-                 foundAny = true;
+        while (r != NULL) {
+            if (r->info.noBalapan == noBalapan) {
+                for (int i = 0; i < 2; i++) {
+                    results[count].namaTeam = p->info.namaTeam;
+                    results[count].namaDriver = p->info.noDriver[i];
+                    results[count].posisi = r->info.posisi[i];
+                    results[count].poin = r->info.poin[i];
+                    count++;
+                }
             }
             r = r->next;
         }
         p = p->next;
     }
-    if(!foundAny){
+
+    if (count == 0) {
         cout << "Data tidak ditemukan" << endl;
+        return;
+    }
+
+    // Sort berdasarkan posisi
+    for (int i = 0; i < count - 1; i++) {
+        for (int j = 0; j < count - i - 1; j++) {
+            if (results[j].posisi > results[j + 1].posisi) {
+                ResultData temp = results[j];
+                results[j] = results[j + 1];
+                results[j + 1] = temp;
+            }
+        }
+    }
+
+    for (int i = 0; i < count; i++) {
+        cout << "Pos " << results[i].posisi << ": "
+             << results[i].namaDriver << " (" << results[i].namaTeam << ") - "
+             << results[i].poin << " pts" << endl;
     }
 }
