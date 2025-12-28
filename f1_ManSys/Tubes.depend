@@ -1,0 +1,46 @@
+# depslib dependency file v1.0
+1766651762 source:d:\kuliah\chapter 3\struktur data\tugas pendahuluan\tp15\tubes\f1.cpp
+	<iostream>
+	"f1.h"
+
+1766651718 d:\kuliah\chapter 3\struktur data\tugas pendahuluan\tp15\tubes\f1.h
+	<iostream>
+	<string>
+
+1766673671 source:d:\kuliah\chapter 3\struktur data\tugas & latihan\tubes\argongawi-new\main.cpp
+	<iostream>
+	"f1.h"
+
+1766673810 d:\kuliah\chapter 3\struktur data\tugas & latihan\tubes\argongawi-new\f1.h
+	<iostream>
+	<string>
+
+1766754182 source:d:\kuliah\chapter 3\struktur data\tugas & latihan\tubes\argongawi-new\f1.cpp
+	<iostream>
+	"f1.h"
+
+1766806762 source:d:\kuliah\chapter 3\struktur data\tugas & latihan\tubes\argongawi-new-rev1\f1.cpp
+	<iostream>
+	"f1.h"
+
+1766806731 d:\kuliah\chapter 3\struktur data\tugas & latihan\tubes\argongawi-new-rev1\f1.h
+	<iostream>
+	<string>
+
+1766806800 source:d:\kuliah\chapter 3\struktur data\tugas & latihan\tubes\argongawi-new-rev1\main.cpp
+	<iostream>
+	"f1.h"
+
+1766845154 source:d:\kuliah\chapter 3\struktur data\tugas & latihan\tubes\argongawi-new-rev2\f1.cpp
+	<iostream>
+	<iomanip>
+	"f1.h"
+
+1766843839 d:\kuliah\chapter 3\struktur data\tugas & latihan\tubes\argongawi-new-rev2\f1.h
+	<iostream>
+	<string>
+
+1766850285 source:d:\kuliah\chapter 3\struktur data\tugas & latihan\tubes\argongawi-new-rev2\main.cpp
+	<iostream>
+	"f1.h"
+
