@@ -3,7 +3,7 @@
 Program  untuk mengelola data tim Formula 1 beserta statistik hasil balapannya. Program ini dibangun menggunakan struktur data **Multi-Linked List** di mana setiap Tim dapat memiliki banyak catatan Balapan. Dibuat untuk memenuhi kriteria Tugas Besar Mata Kuliah Struktur Data
 
 ## Struktur Data
-Program ini menggunakan model **Multi-Linked List 1-N** dengan:
+Program ini menggunakan model **Multi Linked List 1-N** dengan spesifikasi sebagai berikut.
 * **Relasi:** 1-N (One-to-Many).
 * **List Parent (Tim):** Double Linked List (DLL).
 * **List Child (Race):** Single Linked List (SLL).
